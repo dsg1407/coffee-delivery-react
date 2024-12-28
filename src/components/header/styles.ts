@@ -2,6 +2,9 @@ import { MapPin } from 'phosphor-react'
 import styled from 'styled-components'
 
 export const HeaderContainer = styled.header`
+  max-width: 1120px;
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
