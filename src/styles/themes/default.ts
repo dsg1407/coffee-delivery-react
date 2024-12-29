@@ -40,7 +40,7 @@ export const defaultTheme = {
           M: '1rem',
           S: '0.875rem',
           XS: '0.75rem',
-          TAG: '0.625',
+          TAG: '0.625rem',
           'BUTTON-G': '0.875rem',
           'BUTTON-M': '0.75rem',
         },
