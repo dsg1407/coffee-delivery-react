@@ -1,11 +1,13 @@
 import { ShoppingCart } from 'phosphor-react'
 import { CartContainer, ItemsCounter } from './styles'
+import { useContext } from 'react'
+import { OrderContext } from '../../../../context/order'
 
 type CartButtonProps = React.HTMLProps<HTMLAnchorElement> & {}
 
 export function CartButton(props: CartButtonProps) {
-  // TODO - Add cart context
-  const cartTotalItems = 3
+  const { orders } = useContext(OrderContext)
+  const cartTotalItems = orders.length
 
   return (
     <CartContainer {...props}>
