@@ -54,6 +54,10 @@ export const Button = styled.button<ButtonProps>`
       border-color: ${(props) => props.theme.colors['brand-yellow-light']};
     `}
 
+  &:focus {
+    box-shadow: 0 0 0 2px transparent;
+  }
+
   &:hover {
     filter: brightness(1.05);
     background-color: ${(props) => props.theme.colors['brand-yellow-light']};

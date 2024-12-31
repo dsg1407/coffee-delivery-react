@@ -8,11 +8,12 @@ import {
   CardContainer,
   CardDescription,
   Tag,
+  TagsContainer,
 } from './styles'
 
 interface CardProps {
   imgSrc: string
-  tag: string
+  tags: string[]
   name: string
   description: string
   price: number
@@ -24,7 +25,7 @@ interface OrderProps {
   price: number
 }
 
-export function Card({ imgSrc, tag, name, description, price }: CardProps) {
+export function Card({ imgSrc, tags, name, description, price }: CardProps) {
   const [quantity, setQuantity] = useState(1)
 
   function handleChangeQuantity(operation: 'minus' | 'plus') {
@@ -52,7 +53,12 @@ export function Card({ imgSrc, tag, name, description, price }: CardProps) {
   return (
     <CardContainer>
       <img src={imgSrc} alt={`A ${name} coffee cup`} />
-      <Tag>{tag}</Tag>
+      <TagsContainer>
+        {tags.map((tag) => (
+          <Tag key={tag}>{tag}</Tag>
+        ))}
+      </TagsContainer>
+
       <CardDescription>
         <h3>{name}</h3>
         <p>{description}</p>

@@ -19,6 +19,13 @@ export const CardContainer = styled.div`
   }
 `
 
+export const TagsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+`
+
 export const Tag = styled.span`
   padding: 6px 12px;
   border: 1px solid ${(props) => props.theme.colors['brand-yellow-light']};
