@@ -56,8 +56,10 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
   }, [])
 
   useEffect(() => {
-    const stateJSON = JSON.stringify(orders)
-    localStorage.setItem('@coffee-delivery-react@:orders-1.0.0', stateJSON)
+    if (orders.length > 0) {
+      const stateJSON = JSON.stringify(orders)
+      localStorage.setItem('@coffee-delivery-react@:orders-1.0.0', stateJSON)
+    }
   }, [orders])
 
   return (
