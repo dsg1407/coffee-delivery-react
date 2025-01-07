@@ -2,7 +2,9 @@ import { createContext, useEffect, useState } from 'react'
 
 export interface Order {
   id: string
+  coffeeId: string
   name: string
+  imgSrc: string
   quantity: number
   price: number
 }
@@ -44,6 +46,9 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
   function removeOrder(id: string) {
     const newOrderList = orders.filter((order) => order.id !== id)
     setOrders(newOrderList)
+
+    const stateJSON = JSON.stringify(newOrderList)
+    localStorage.setItem('@coffee-delivery-react@:orders-1.0.0', stateJSON)
   }
 
   useEffect(() => {
