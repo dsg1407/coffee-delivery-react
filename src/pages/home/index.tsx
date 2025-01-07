@@ -57,6 +57,7 @@ export function Home() {
           {filteredCoffees.map((coffee) => (
             <Card
               key={coffee.id}
+              coffeeId={coffee.id}
               imgSrc={coffee.imgSrc}
               tags={coffee.tag}
               name={coffee.name}

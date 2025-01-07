@@ -61,6 +61,9 @@ export const CardDescription = styled.div`
     font-size: ${(props) => props.theme.fonts.types.text.sizes.S};
     line-height: 130%;
 
+    height: 33px;
+    text-overflow: ellipsis;
+
     margin-bottom: 33px;
   }
 `
@@ -111,7 +114,7 @@ export const BuySelectionButton = styled.button`
   cursor: pointer;
   transition: all 0.2s;
 
-  :hover {
+  &:hover {
     color: ${(props) => props.theme.colors['brand-purple-dark']};
   }
 `

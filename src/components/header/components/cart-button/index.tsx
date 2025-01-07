@@ -7,7 +7,10 @@ type CartButtonProps = React.HTMLProps<HTMLAnchorElement> & {}
 
 export function CartButton(props: CartButtonProps) {
   const { orders } = useContext(OrderContext)
-  const cartTotalItems = orders.length
+
+  const totalQuantity = orders.reduce((acc, cur) => acc + cur.quantity, 0)
+
+  const cartTotalItems = totalQuantity
 
   return (
     <CartContainer {...props}>

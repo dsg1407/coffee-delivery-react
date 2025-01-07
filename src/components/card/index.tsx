@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import * as uuid from 'uuid'
 import { Minus, Plus, ShoppingCart } from 'phosphor-react'
 import {
   BuyCart,
@@ -10,8 +11,10 @@ import {
   Tag,
   TagsContainer,
 } from './styles'
+import { type Order, OrderContext } from '../../context/order'
 
 interface CardProps {
+  coffeeId: string
   imgSrc: string
   tags: string[]
   name: string
@@ -19,14 +22,16 @@ interface CardProps {
   price: number
 }
 
-interface OrderProps {
-  name: string
-  quantity: number
-  price: number
-}
-
-export function Card({ imgSrc, tags, name, description, price }: CardProps) {
+export function Card({
+  coffeeId,
+  imgSrc,
+  tags,
+  name,
+  description,
+  price,
+}: CardProps) {
   const [quantity, setQuantity] = useState(1)
+  const { addNewOrder, orders, changeOrderQuantity } = useContext(OrderContext)
 
   function handleChangeQuantity(operation: 'minus' | 'plus') {
     setQuantity((state) => {
@@ -41,13 +46,26 @@ export function Card({ imgSrc, tags, name, description, price }: CardProps) {
   }
 
   function handleAddToCart() {
-    const order: OrderProps = {
-      name,
-      price,
-      quantity,
-    }
+    const orderFiltered = orders.filter((order) => order.coffeeId === coffeeId)
 
-    console.log(order)
+    if (orderFiltered.length > 0) {
+      changeOrderQuantity(
+        orderFiltered[0].id,
+        orderFiltered[0].quantity + quantity,
+      )
+    } else {
+      const order: Order = {
+        id: uuid.v4(),
+        coffeeId,
+        imgSrc,
+        name,
+        price,
+        quantity,
+      }
+
+      addNewOrder(order)
+    }
+    setQuantity(1)
   }
 
   return (

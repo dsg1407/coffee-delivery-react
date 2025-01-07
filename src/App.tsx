@@ -8,11 +8,11 @@ import { OrderContextProvider } from './context/order'
 export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <BrowserRouter>
-        <OrderContextProvider>
+      <OrderContextProvider>
+        <BrowserRouter>
           <Router />
-        </OrderContextProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </OrderContextProvider>
       <GlobalStyle />
     </ThemeProvider>
   )
