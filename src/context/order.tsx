@@ -14,6 +14,7 @@ interface OrderContextType {
   addNewOrder: (newOrder: Order) => void
   changeOrderQuantity: (id: string, newQuantity: number) => void
   removeOrder: (id: string) => void
+  removeAllOrders: () => void
 }
 
 export const OrderContext = createContext({} as OrderContextType)
@@ -51,6 +52,14 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     localStorage.setItem('@coffee-delivery-react@:orders-1.0.0', stateJSON)
   }
 
+  function removeAllOrders() {
+    const EmptyOrderList = [] as Order[]
+    setOrders(EmptyOrderList)
+
+    const stateJSON = JSON.stringify(EmptyOrderList)
+    localStorage.setItem('@coffee-delivery-react@:orders-1.0.0', stateJSON)
+  }
+
   useEffect(() => {
     const storageStateAsJSON = localStorage.getItem(
       '@coffee-delivery-react@:orders-1.0.0',
@@ -74,6 +83,7 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
         addNewOrder,
         changeOrderQuantity,
         removeOrder,
+        removeAllOrders,
       }}
     >
       {children}
