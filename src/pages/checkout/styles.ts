@@ -267,4 +267,12 @@ export const OrderConfirmationButton = styled.button`
   &:hover {
     filter: brightness(0.95);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${(props) => props.theme.colors['brand-yellow-light']};
+    &:hover {
+      filter: brightness(1);
+    }
+  }
 `

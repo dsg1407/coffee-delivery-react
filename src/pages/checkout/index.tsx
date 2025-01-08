@@ -1,4 +1,8 @@
+import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
+import * as uuid from 'uuid'
 import { Bank, CreditCard, CurrencyDollar, MapPin, Money } from 'phosphor-react'
+
 import {
   CheckoutContainer,
   CoffeeSelection,
@@ -15,7 +19,6 @@ import {
   OrderConfirmationButton,
 } from './styles'
 import { useTheme } from 'styled-components'
-import { useContext, useEffect, useState } from 'react'
 import { CheckoutCard } from '../../components/checkout-card'
 import { OrderContext } from '../../context/order'
 
@@ -24,12 +27,67 @@ export function Checkout() {
   const [totalItensValue, setTotalItensValue] = useState(0)
   const [deliveryValue, setDeliveryValue] = useState(0)
 
-  const { colors } = useTheme()
+  const [addressCEP, setAddressCEP] = useState('')
+  const [addressName, setAddressName] = useState('')
+  const [addressNumber, setAddressNumber] = useState('')
+  const [addressComplement, setAddressComplement] = useState('')
+  const [addressRegion, setAddressRegion] = useState('')
+  const [addressCity, setAddressCity] = useState('')
+  const [addressUF, setAddressUF] = useState('')
 
-  const { orders } = useContext(OrderContext)
+  const { colors } = useTheme()
+  const navigate = useNavigate()
+
+  const { orders, removeAllOrders } = useContext(OrderContext)
 
   function handlePaymentMethod(newMethod: string) {
     setPaymentMethod(newMethod)
+  }
+
+  function formValidate() {
+    if (
+      !addressCEP ||
+      !addressName ||
+      !addressNumber ||
+      !addressRegion ||
+      !addressCity ||
+      !addressUF
+    )
+      return false
+    return true
+  }
+
+  function handleOrderConfirmation() {
+    const isFormValidate = formValidate()
+
+    if (!isFormValidate) {
+      return alert('Erro: Preencha todos os campos obrigatórios do endereço')
+    }
+
+    const deliveryInitialEstimatedTime = (Math.random() * 20).toFixed(0)
+
+    const orderCreated = {
+      id: uuid.v4(),
+      address: {
+        addressCEP,
+        addressName,
+        addressNumber,
+        addressRegion,
+        addressComplement,
+        addressCity,
+        addressUF,
+      },
+      deliveryTime: `${deliveryInitialEstimatedTime} min - ${Number(deliveryInitialEstimatedTime) + 10} min`,
+      paymentMethod,
+    }
+
+    navigate(`/order/success/${orderCreated.id}`, {
+      state: {
+        orderCreated,
+      },
+    })
+
+    removeAllOrders()
   }
 
   useEffect(() => {
@@ -60,32 +118,67 @@ export function Checkout() {
           <form>
             <div>
               <InputContainer size="fixed">
-                <input type="text" placeholder="CEP" />
+                <input
+                  type="text"
+                  placeholder="CEP"
+                  value={addressCEP}
+                  onChange={(e) => setAddressCEP(e.target.value)}
+                />
               </InputContainer>
             </div>
             <div>
               <InputContainer>
-                <input type="text" placeholder="Rua" />
+                <input
+                  type="text"
+                  placeholder="Rua"
+                  value={addressName}
+                  onChange={(e) => setAddressName(e.target.value)}
+                />
               </InputContainer>
             </div>
             <div>
               <InputContainer size="fixed">
-                <input type="number" placeholder="Número" />
+                <input
+                  type="number"
+                  placeholder="Número"
+                  value={addressNumber}
+                  onChange={(e) => setAddressNumber(e.target.value)}
+                />
               </InputContainer>
               <InputContainer>
-                <input type="text" placeholder="Complemento" />
+                <input
+                  type="text"
+                  placeholder="Complemento"
+                  value={addressComplement}
+                  onChange={(e) => setAddressComplement(e.target.value)}
+                />
                 <span>Opcional</span>
               </InputContainer>
             </div>
             <div>
               <InputContainer size="fixed">
-                <input type="text" placeholder="Bairro" />
+                <input
+                  type="text"
+                  placeholder="Bairro"
+                  value={addressRegion}
+                  onChange={(e) => setAddressRegion(e.target.value)}
+                />
               </InputContainer>
               <InputContainer>
-                <input type="text" placeholder="Cidade" />
+                <input
+                  type="text"
+                  placeholder="Cidade"
+                  value={addressCity}
+                  onChange={(e) => setAddressCity(e.target.value)}
+                />
               </InputContainer>
               <InputContainer size="small">
-                <input type="text" placeholder="UF" />
+                <input
+                  type="text"
+                  placeholder="UF"
+                  value={addressUF}
+                  onChange={(e) => setAddressUF(e.target.value)}
+                />
               </InputContainer>
             </div>
           </form>
@@ -183,7 +276,12 @@ export function Checkout() {
               </span>
             </div>
           </ValuesContainer>
-          <OrderConfirmationButton>Confirmar pedido</OrderConfirmationButton>
+          <OrderConfirmationButton
+            disabled={orders.length === 0}
+            onClick={handleOrderConfirmation}
+          >
+            Confirmar pedido
+          </OrderConfirmationButton>
         </CoffeeSelection>
       </CoffeeSelectionContainer>
     </CheckoutContainer>
