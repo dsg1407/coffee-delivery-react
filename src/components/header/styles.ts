@@ -22,7 +22,7 @@ export const HeaderContainer = styled.header`
   }
 `
 
-export const PlaceButton = styled.button`
+export const PlaceContainer = styled.div`
   display: flex;
   gap: 4px;
   align-items: center;
@@ -35,12 +35,7 @@ export const PlaceButton = styled.button`
   border-radius: 8px;
 
   font-size: ${(props) => props.theme.fonts.types.text.sizes.S};
-  cursor: pointer;
   transition: all 0.2s;
-
-  &:hover {
-    filter: brightness(0.95);
-  }
 `
 
 export const PlaceIcon = styled(MapPin)`
